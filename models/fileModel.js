@@ -1,0 +1,1 @@
+// Mongoose model for file and folder data
