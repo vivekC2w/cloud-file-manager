@@ -1,14 +1,10 @@
-// TODO: Configuration for MongoDB, cloud storage, etc.
-
 const mongoose = require('mongoose');
-const AWS = require('aws-sdk');
+const { S3Client } = require('@aws-sdk/client-s3');
 
 require('dotenv').config();
 
 //Connecting to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 }).then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
@@ -16,3 +12,15 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 //Setting AWS S3
+const s3 = new S3Client({
+    region: process.env.REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+});
+
+module.exports = {
+    mongoose,
+    s3,
+}
